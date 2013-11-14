@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:fb="https://www.facebook.com/2008/fbml">
+    <head>
+        <meta charset="utf-8" />
+        <title>Facebook API - Get friends list | Script Tutorials</title>
+        <link href="css/main.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body onload="fb()">
+        <div id="fb-root"></div>
+        <script>
+        function fb(){
+        var sApplicationId = '449087148546031';
+        var sApplicationSecret = 'bcd714b99bc0819ce4daf67a29850b49';
+        window.fbAsyncInit = function() {
+            FB.init({ appId: sApplicationId, 
+                status: true, 
+                cookie: true,
+                xfbml: true,
+                oauth: true
+            });
+
+            function updateButton(response) {
+                var button = document.getElementById('fb-auth');
+//console.log(response.status);
+                if (response.status === 'connected') 
+                { 
+                        // in case if we are logged in
+                        //post to user wall 
+                        var wallPost = {
+                            message : "I just got my Degree verified from my University through DirectVerify! Now i have a Secure Career and better and faster chances of getting a Job and Visa!",
+                            picture: "https://myeasydocs.com/ws_images/logo1.png",
+                            name: "DirectVerify",
+                            description: "Direct Verify is a service launched by Universities for students. Now you can get your degrees pre-verified from your University and avoid missing out great jobs or international travel opportunities dues to fraud or delays!",
+                            link: "http://directverify.in/"
+                        };
+                        FB.api('/me/feed', 'post',wallPost);
+/*setTimeout(function(){ window.location.assign("http://directverify.in/");}, 2000);*/
+alert("Sucessefully posted");
+                } 
+                 else if (response.status === 'not_authorized') {
+                    //alert("User not_authorized");
+
+                    FB.login(function(response) {
+                            if (response.authResponse) {
+                                window.location.reload();
+                            }
+                            else
+                            {
+                               window.location.reload(true); 
+                            }
+                        }, {scope:'publish_actions'});
+                   // window.location.reload(true);
+                }
+                else 
+                { 
+                     alert("User logged out");
+                     // otherwise - dispay login button
+                        FB.login(function(response) {
+                            if (response.authResponse) {
+                                window.location.reload();
+                            }
+                        }, {scope:'publish_actions'});
+                }
+            }
+
+            // run once with current status and whenever the status changes
+            //FB.getLoginStatus(updateButton);
+            FB.Event.subscribe('auth.statusChange', updateButton);    
+        };
+            
+        (function() {
+            var e = document.createElement('script'); e.async = true;
+            e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+            document.getElementById('fb-root').appendChild(e);
+        }());
+    }
+        </script>
+
+</body>
+</html>
