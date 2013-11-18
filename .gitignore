@@ -1,1 +1,22 @@
+<<<<<<< HEAD
 *.txt
+=======
+# Object files
+*.o
+*.ko
+
+# Libraries
+*.lib
+*.a
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+>>>>>>> 5bb06e50ffb81a65f055395a72239bb45f89d6af
